@@ -23,18 +23,50 @@
               item-text="title"
               item-value="id"
               label="Фильтр по городам"
-              prepend-icon="mdi-filter"
               multiple
               outlined
               dense
               hide-details
               clearable
+              :menu-props="{ maxHeight: 400 }"
             >
+              <template v-slot:prepend-item>
+                <v-list-item>
+                  <v-list-item-content>
+                    <v-text-field
+                      v-model="citySearchQuery"
+                      placeholder="Поиск города..."
+                      prepend-inner-icon="mdi-magnify"
+                      clearable
+                      dense
+                      outlined
+                      hide-details
+                      class="mb-2"
+                    />
+                  </v-list-item-content>
+                </v-list-item>
+                <v-divider class="mb-2" />
+              </template>
+
+              <template v-slot:item="{ item, attrs, on }">
+                <v-list-item v-bind="attrs" v-on="on">
+                  <v-list-item-action>
+                    <v-checkbox
+                      :input-value="selectedCities.includes(item.id)"
+                      color="primary"
+                    />
+                  </v-list-item-action>
+                  <v-list-item-content>
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </template>
+
               <template v-slot:selection="{ item, index }">
-                <v-chip v-if="index < 2" small>
+                <v-chip v-if="index < 2" small close @click:close="removeCity(item.id)">
                   {{ item.title }}
                 </v-chip>
-                <span v-if="index === 2" class="caption grey--text">
+                <span v-if="index === 2" class="caption grey--text ml-1">
                   (+{{ selectedCities.length - 2 }} еще)
                 </span>
               </template>
@@ -91,6 +123,7 @@ export default {
       users: [],
       searchQuery: '',
       selectedCities: [],
+      citySearchQuery: '',
       currentPage: 1,
       itemsPerPage: 50
     }
@@ -106,9 +139,18 @@ export default {
           citiesMap.set(user.city.id, user.city)
         }
       })
-      return Array.from(citiesMap.values()).sort((a, b) => 
+      let cities = Array.from(citiesMap.values()).sort((a, b) => 
         a.title.localeCompare(b.title)
       )
+
+      if (this.citySearchQuery) {
+        const query = this.citySearchQuery.toLowerCase().trim()
+        cities = cities.filter(city => 
+          city.title.toLowerCase().includes(query)
+        )
+      }
+
+      return cities
     },
     filteredUsers() {
       let filtered = this.users
@@ -151,6 +193,12 @@ export default {
     filterByCity(city) {
       if (!this.selectedCities.includes(city.id)) {
         this.selectedCities.push(city.id)
+      }
+    },
+    removeCity(cityId) {
+      const index = this.selectedCities.indexOf(cityId)
+      if (index > -1) {
+        this.selectedCities.splice(index, 1)
       }
     },
     viewUserDetails(user) {
