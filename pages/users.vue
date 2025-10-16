@@ -129,6 +129,7 @@ export default {
     }
   },
   async fetch() {
+    await this.$api.users.list({ offset: 0, limit: 100 })
     this.users = this.$api.users.getAll()
   },
   computed: {
