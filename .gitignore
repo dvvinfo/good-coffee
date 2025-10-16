@@ -1,0 +1,30 @@
+# dependencies
+node_modules
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Nuxt build
+.nuxt
+dist
+
+# Nuxt generate
+dist
+
+# env files
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+*.swn
