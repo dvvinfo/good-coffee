@@ -8,15 +8,22 @@
       :color="$vuetify.theme.dark ? '#1a1a1a' : '#FFFFFF'"
       width="280"
     >
-      <v-list-item class="px-2 profile-item" @click="miniVariant = !miniVariant">
+      <v-list-item
+        class="px-2 profile-item"
+        @click="miniVariant = !miniVariant"
+      >
         <v-list-item-avatar>
           <v-icon large>mdi-account-circle</v-icon>
         </v-list-item-avatar>
         <v-list-item-content>
-          <v-list-item-title class="profile-name">Михаил Макеев</v-list-item-title>
+          <v-list-item-title class="profile-name"
+            >Михаил Макеев</v-list-item-title
+          >
         </v-list-item-content>
         <v-btn icon @click.stop="miniVariant = !miniVariant">
-          <v-icon>{{ miniVariant ? 'mdi-chevron-right' : 'mdi-chevron-left' }}</v-icon>
+          <v-icon>{{
+            miniVariant ? "mdi-chevron-right" : "mdi-chevron-left"
+          }}</v-icon>
         </v-btn>
       </v-list-item>
 
@@ -98,7 +105,11 @@
 
       <template v-slot:append>
         <div class="pa-2">
-          <v-btn icon @click="toggleTheme" :title="miniVariant ? 'Переключить тему' : ''">
+          <v-btn
+            icon
+            @click="toggleTheme"
+            :title="miniVariant ? 'Переключить тему' : ''"
+          >
             <v-icon>{{ themeIcon }}</v-icon>
           </v-btn>
         </div>
@@ -113,46 +124,48 @@
 
 <script>
 export default {
-  name: 'DefaultLayout',
+  name: "DefaultLayout",
   data() {
     return {
       drawer: true,
-      miniVariant: true
-    }
+      miniVariant: true,
+    };
   },
   computed: {
     themeIcon() {
-      return this.$vuetify.theme.dark ? 'mdi-white-balance-sunny' : 'mdi-moon-waning-crescent'
-    }
+      return this.$vuetify.theme.dark
+        ? "mdi-white-balance-sunny"
+        : "mdi-moon-waning-crescent";
+    },
   },
   methods: {
     toggleTheme() {
-      this.$vuetify.theme.dark = !this.$vuetify.theme.dark
-      localStorage.setItem('darkTheme', this.$vuetify.theme.dark.toString())
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+      localStorage.setItem("darkTheme", this.$vuetify.theme.dark.toString());
     },
     handleMenuClick() {
       if (this.miniVariant) {
-        this.miniVariant = false
+        this.miniVariant = false;
       }
-    }
+    },
   },
   mounted() {
-    const savedTheme = localStorage.getItem('darkTheme')
+    const savedTheme = localStorage.getItem("darkTheme");
     if (savedTheme !== null) {
-      this.$vuetify.theme.dark = savedTheme === 'true'
+      this.$vuetify.theme.dark = savedTheme === "true";
     }
-    
-    const savedMiniVariant = localStorage.getItem('miniVariant')
+
+    const savedMiniVariant = localStorage.getItem("miniVariant");
     if (savedMiniVariant !== null) {
-      this.miniVariant = savedMiniVariant === 'true'
+      this.miniVariant = savedMiniVariant === "true";
     }
   },
   watch: {
     miniVariant(val) {
-      localStorage.setItem('miniVariant', val.toString())
-    }
-  }
-}
+      localStorage.setItem("miniVariant", val.toString());
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
@@ -176,29 +189,29 @@ export default {
 
 .theme--dark .sidebar {
   ::v-deep .v-list-item--active {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-    
+    background-color: rgba(255, 255, 255, 0.1);
+
     &:before {
       opacity: 0;
     }
   }
 
   ::v-deep .v-list-item:hover {
-    background-color: rgba(255, 255, 255, 0.05) !important;
+    background-color: rgba(255, 255, 255, 0.05);
   }
 }
 
 .theme--light .sidebar {
   ::v-deep .v-list-item--active {
-    background-color: rgba(255, 209, 102, 0.2) !important;
-    
+    background-color: rgba(255, 209, 102, 0.2);
+
     &:before {
       opacity: 0;
     }
   }
 
   ::v-deep .v-list-item:hover {
-    background-color: rgba(0, 0, 0, 0.04) !important;
+    background-color: rgba(0, 0, 0, 0.04);
   }
 }
 
