@@ -1,8 +1,19 @@
 <template>
   <v-app>
+    <v-app-bar app flat class="app-bar" v-if="$vuetify.breakpoint.mobile">
+      <v-app-bar-nav-icon @click="drawer = !drawer" />
+      <v-toolbar-title>Добрый кофе</v-toolbar-title>
+      <v-spacer />
+      <v-btn icon @click="toggleTheme">
+        <v-icon>{{ themeIcon }}</v-icon>
+      </v-btn>
+    </v-app-bar>
+
     <v-navigation-drawer
       v-model="drawer"
       :mini-variant.sync="miniVariant"
+      :temporary="$vuetify.breakpoint.mobile"
+      :permanent="!$vuetify.breakpoint.mobile"
       app
       class="sidebar"
       :color="$vuetify.theme.dark ? '#1a1a1a' : '#FFFFFF'"
@@ -103,7 +114,7 @@
         </v-list-item>
       </v-list>
 
-      <template v-slot:append>
+      <template v-slot:append v-if="!$vuetify.breakpoint.mobile">
         <div class="pa-2">
           <v-btn
             icon
@@ -131,6 +142,11 @@ export default {
       miniVariant: true,
     };
   },
+  created() {
+    if (process.client && this.$vuetify.breakpoint.mobile) {
+      this.drawer = false;
+    }
+  },
   computed: {
     themeIcon() {
       return this.$vuetify.theme.dark
@@ -144,8 +160,11 @@ export default {
       localStorage.setItem("darkTheme", this.$vuetify.theme.dark.toString());
     },
     handleMenuClick() {
-      if (this.miniVariant) {
+      if (this.miniVariant && !this.$vuetify.breakpoint.mobile) {
         this.miniVariant = false;
+      }
+      if (this.$vuetify.breakpoint.mobile) {
+        this.drawer = false;
       }
     },
   },
@@ -169,6 +188,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.app-bar {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.theme--dark .app-bar {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
 .sidebar {
   transition: all 0.3s ease;
 }
