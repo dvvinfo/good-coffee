@@ -5,7 +5,7 @@
         <v-col cols="12" sm="6" md="3">
           <div class="user-info">
             <h3 class="user-name">{{ user.name }}</h3>
-            <p class="user-phone caption mb-1">{{ user.phone }}</p>
+            <p class="user-phone caption mb-1">{{ maskedPhone }}</p>
             <v-chip
               small
               :color="getCityColor(user.city.title)"
@@ -79,6 +79,10 @@ export default {
       if (this.user.balance > 0) return 'positive'
       if (this.user.balance < 0) return 'negative'
       return 'neutral'
+    },
+    maskedPhone() {
+      if (!this.user.phone || this.user.phone.length < 12) return this.user.phone
+      return `${this.user.phone.slice(0, 3)}***${this.user.phone.slice(-4)}`
     }
   },
   methods: {

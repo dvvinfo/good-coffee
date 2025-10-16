@@ -41,7 +41,12 @@ function generateId() {
 
 function generatePhone() {
   const num = Math.floor(Math.random() * 10000000).toString().padStart(7, '0')
-  return `+79***${num.slice(0, 2)}${num.slice(-2)}`
+  return `+79${num}`
+}
+
+function maskPhone(phone) {
+  if (phone.length < 12) return phone
+  return `${phone.slice(0, 3)}***${phone.slice(-4)}`
 }
 
 function generateUser(index) {
