@@ -53,15 +53,13 @@ export default {
           primary: '#FFD166',
           secondary: '#EEEEEE',
           background: '#FFFFFF',
-          text: '#000000',
-          caption: '#787878'
+          text: '#000000'
         },
         dark: {
           primary: '#FFD166',
           secondary: '#333333',
           background: '#1E1E1E',
-          text: '#FFFFFF',
-          caption: '#B0B0B0'
+          text: '#FFFFFF'
         }
       }
     },
