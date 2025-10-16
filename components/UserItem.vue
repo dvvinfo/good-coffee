@@ -81,7 +81,7 @@ export default {
       return 'neutral'
     },
     maskedPhone() {
-      if (!this.user.phone || this.user.phone.length < 12) return this.user.phone
+      if (!this.user.phone || this.user.phone.length < 10) return this.user.phone
       return `${this.user.phone.slice(0, 3)}***${this.user.phone.slice(-4)}`
     }
   },
