@@ -4,14 +4,13 @@
       v-model="drawer"
       :mini-variant.sync="miniVariant"
       app
-      dark
       class="sidebar"
-      color="#1a1a1a"
+      :color="$vuetify.theme.dark ? '#1a1a1a' : '#FFFFFF'"
       width="280"
     >
-      <v-list-item class="px-2 profile-item">
+      <v-list-item class="px-2 profile-item" @click="miniVariant = !miniVariant">
         <v-list-item-avatar>
-          <v-icon large color="white">mdi-account-circle</v-icon>
+          <v-icon large>mdi-account-circle</v-icon>
         </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title class="profile-name">Михаил Макеев</v-list-item-title>
@@ -24,7 +23,7 @@
       <v-divider class="my-2" />
 
       <v-list dense nav class="py-0">
-        <v-list-item to="/points" link>
+        <v-list-item to="/points" link @click="handleMenuClick">
           <v-list-item-icon>
             <v-icon>mdi-store</v-icon>
           </v-list-item-icon>
@@ -33,7 +32,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item to="/machines" link>
+        <v-list-item to="/machines" link @click="handleMenuClick">
           <v-list-item-icon>
             <v-icon>mdi-cog</v-icon>
           </v-list-item-icon>
@@ -42,7 +41,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item to="/partners" link>
+        <v-list-item to="/partners" link @click="handleMenuClick">
           <v-list-item-icon>
             <v-icon>mdi-handshake</v-icon>
           </v-list-item-icon>
@@ -51,7 +50,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item to="/employees" link>
+        <v-list-item to="/employees" link @click="handleMenuClick">
           <v-list-item-icon>
             <v-icon>mdi-account-group</v-icon>
           </v-list-item-icon>
@@ -60,7 +59,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item to="/drinks" link>
+        <v-list-item to="/drinks" link @click="handleMenuClick">
           <v-list-item-icon>
             <v-icon>mdi-coffee</v-icon>
           </v-list-item-icon>
@@ -69,7 +68,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item to="/subscriptions" link>
+        <v-list-item to="/subscriptions" link @click="handleMenuClick">
           <v-list-item-icon>
             <v-icon>mdi-card-account-details</v-icon>
           </v-list-item-icon>
@@ -78,7 +77,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item to="/active-subscriptions" link>
+        <v-list-item to="/active-subscriptions" link @click="handleMenuClick">
           <v-list-item-icon>
             <v-icon>mdi-card-account-details-star</v-icon>
           </v-list-item-icon>
@@ -87,7 +86,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item to="/users" link>
+        <v-list-item to="/users" link @click="handleMenuClick">
           <v-list-item-icon>
             <v-icon>mdi-account-multiple</v-icon>
           </v-list-item-icon>
@@ -130,6 +129,11 @@ export default {
     toggleTheme() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark
       localStorage.setItem('darkTheme', this.$vuetify.theme.dark.toString())
+    },
+    handleMenuClick() {
+      if (this.miniVariant) {
+        this.miniVariant = false
+      }
     }
   },
   mounted() {
@@ -153,29 +157,49 @@ export default {
 
 <style scoped lang="scss">
 .sidebar {
-  background-color: #1a1a1a !important;
+  transition: all 0.3s ease;
 }
 
 .profile-item {
   min-height: 64px;
+  cursor: pointer;
 }
 
 .profile-name {
   font-weight: 600;
   font-size: 16px;
-  color: white;
 }
 
-::v-deep .v-list-item--active {
-  background-color: rgba(255, 255, 255, 0.1) !important;
-  
-  &:before {
-    opacity: 0;
+.theme--light .sidebar {
+  border-right: 1px solid #e0e0e0;
+}
+
+.theme--dark .sidebar {
+  ::v-deep .v-list-item--active {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    
+    &:before {
+      opacity: 0;
+    }
+  }
+
+  ::v-deep .v-list-item:hover {
+    background-color: rgba(255, 255, 255, 0.05) !important;
   }
 }
 
-::v-deep .v-list-item:hover {
-  background-color: rgba(255, 255, 255, 0.05) !important;
+.theme--light .sidebar {
+  ::v-deep .v-list-item--active {
+    background-color: rgba(255, 209, 102, 0.2) !important;
+    
+    &:before {
+      opacity: 0;
+    }
+  }
+
+  ::v-deep .v-list-item:hover {
+    background-color: rgba(0, 0, 0, 0.04) !important;
+  }
 }
 
 ::v-deep .v-navigation-drawer--mini-variant {
