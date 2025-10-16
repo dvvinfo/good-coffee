@@ -55,7 +55,7 @@
             icon
             color="primary"
             class="detail-btn"
-            @click="$emit('view-details', user)"
+            @click.stop="$emit('view-details', user)"
           >
             <v-icon>mdi-chevron-right</v-icon>
           </v-btn>
