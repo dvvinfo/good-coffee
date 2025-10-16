@@ -100,7 +100,7 @@
         v-for="user in paginatedUsers"
         :key="user.id"
         :user="user"
-        @city-click="filterByCity"
+        @city-click="viewCityDetails"
         @view-details="viewUserDetails"
       />
 
@@ -191,10 +191,8 @@ export default {
     }
   },
   methods: {
-    filterByCity(city) {
-      if (!this.selectedCities.includes(city.id)) {
-        this.selectedCities.push(city.id)
-      }
+    viewCityDetails(city) {
+      this.$router.push(`/cities/${city.id}`)
     },
     removeCity(cityId) {
       const index = this.selectedCities.indexOf(cityId)
